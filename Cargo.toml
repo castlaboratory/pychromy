@@ -25,9 +25,7 @@ name = "pychromy"
 crate-type = ["cdylib"]
 
 [dependencies]
-# Development builds take the engine from the sibling checkout; a release
-# pins the crates.io version.
-chromy-core = { version = "0.1.0", path = "../chromy-core" }
+chromy-core = "0.1.0"
 # abi3-py39: one wheel per platform serves every Python from 3.9 up.
 pyo3 = { version = "0.26", features = ["extension-module", "abi3-py39"] }
 
