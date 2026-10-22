@@ -2,6 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/pychromy.svg)](https://pypi.org/project/pychromy/)
 [![license: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23576473.svg)](https://doi.org/10.5281/zenodo.23576473)
 
 Chromy's method of sequential random sampling with probability minimum
 replacement, from Python. The procedure selects units one at a time down an
