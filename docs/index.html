@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>pychromy</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="en" href="https://castlaboratory.github.io/pychromy/en/index.html">
+<link rel="alternate" hreflang="pt" href="https://castlaboratory.github.io/pychromy/pt/index.html">
+<link rel="alternate" hreflang="x-default" href="https://castlaboratory.github.io/pychromy/en/index.html">
+<script>
+var langs = ["en", "pt"];
+var pick = (navigator.languages || [navigator.language || "en"])
+  .map(function (l) { return l.slice(0, 2).toLowerCase(); })
+  .find(function (l) { return langs.indexOf(l) !== -1; }) || "en";
+location.replace(pick + "/index.html");
+</script>
+<meta http-equiv="refresh" content="0; url=en/index.html">
+</head>
+<body>
+<p><a href="en/index.html">English</a> · <a href="pt/index.html">Português</a></p>
+</body>
+</html>

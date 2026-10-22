@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pychromy — Chromy's sequential sampling, from Python</title>
+<meta name="description" content="pychromy draws survey samples by Chromy's method of sequential random sampling with probability minimum replacement: serpentine sorting, multivariate size measures, equal-CV allocation and the multiplicity estimator, on a dependency-free Rust engine.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<meta property="og:title" content="pychromy — Chromy's sequential sampling, from Python">
+<meta property="og:description" content="A whole survey design in one call, reproducible from its seed. Lists in, lists out; the engine is Rust, the promises are design-based.">
+<link rel="alternate" hreflang="en" href="https://castlaboratory.github.io/pychromy/en/index.html">
+<link rel="alternate" hreflang="pt" href="https://castlaboratory.github.io/pychromy/pt/index.html">
+<link rel="alternate" hreflang="x-default" href="https://castlaboratory.github.io/pychromy/en/index.html">
+<style>
+  :root { --accent: #35508C; }
+  @media (prefers-color-scheme: dark) { :root { --accent: #8fa7dd; } }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ======================= nav ======================= -->
+<header class="border-b border-(--rule) bg-(--bg)/80 backdrop-blur-sm sticky top-0 z-40">
+  <nav class="mx-auto flex max-w-6xl items-baseline gap-6 px-5 py-3.5">
+    <a href="#" class="font-display text-xl font-bold tracking-tight">pychromy</a>
+    <span class="font-mono text-xs text-(--muted) hidden sm:inline">v0.1</span>
+    <span class="flex-1"></span>
+    <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors" href="#design">a design</a>
+    <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors" href="#api">api</a>
+    <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors hidden sm:inline" href="#randomness">randomness</a>
+    <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors" href="#install">install</a>
+    <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors hidden sm:inline" href="https://castlaboratory.github.io/chromy-core/">ecosystem</a>
+    <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors" href="https://github.com/castlaboratory/pychromy">github</a>
+    <span class="flex items-baseline gap-2 border-l border-(--rule) pl-4"><a class="font-mono text-xs uppercase text-(--accent) transition-colors" href="../en/index.html">en</a><a class="font-mono text-xs uppercase text-(--muted) hover:text-(--accent) transition-colors" href="../pt/index.html">pt</a></span>
+  </nav>
+</header>
+
+<!-- ======================= hero ======================= -->
+<section class="relative overflow-hidden">
+  <div class="mx-auto max-w-6xl px-5 pt-20 pb-16 lg:pt-28 lg:pb-24">
+    <p class="rise-1 font-mono text-[13px] tracking-[0.18em] uppercase text-(--accent)">pps &nbsp;·&nbsp; sequential &nbsp;·&nbsp; exact sample size</p>
+    <h1 class="rise-2 font-display mt-4 max-w-3xl text-5xl font-semibold leading-[1.04] tracking-tight sm:text-6xl lg:text-7xl">
+      A survey design<br><span class="text-(--accent)">in one call</span>.
+    </h1>
+    <p class="rise-3 mt-6 max-w-2xl text-lg leading-relaxed text-(--muted)">
+      <strong class="text-(--text) font-semibold">pychromy</strong> draws
+      probability-proportional-to-size samples by Chromy's (1979) sequential
+      method — the procedure of <code class="font-mono text-[0.9em]">PROC
+      SURVEYSELECT METHOD=PPS_SEQ</code> — with every unit's realised selections
+      within one of its expectation and the sample size always exact. Lists in,
+      lists out: nothing to install besides the wheel, pandas optional by
+      construction. The engine is the dependency-free Rust crate
+      <a class="underline decoration-(--rule) underline-offset-4 hover:decoration-(--accent)" href="https://castlaboratory.github.io/chromy-core/">chromy-core</a>,
+      shared with the R package.
+    </p>
+
+    <div class="rise-4 mt-9 flex flex-wrap items-center gap-3">
+      <a href="#install" class="rounded-md border border-(--rule) bg-(--surface) px-4 py-2.5 font-mono text-sm hover:border-(--accent) transition-colors">pip install pychromy</a>
+      <a href="https://castlaboratory.github.io/chromy-core/" class="rounded-md border border-transparent px-4 py-2.5 font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors">↗ the method and the ecosystem</a>
+    </div>
+
+    <!-- the thing itself -->
+    <div id="design" class="rise-5 mt-12 overflow-hidden rounded-lg border border-(--rule) bg-(--color-term) shadow-[0_18px_50px_-24px_rgba(27,42,65,0.5)]">
+      <div class="border-b border-white/10 px-4 py-2 font-mono text-xs text-(--color-termtext)/50">a design, reproducible from its seed</div>
+      <pre class="overflow-x-auto px-5 py-4 font-mono text-[13px] leading-relaxed text-(--color-termtext)"><code>import pychromy
+
+s = pychromy.sample(
+    size=pupils, n=40,
+    keys=[region, pupils],      <span class="text-(--color-termtext)/60"># serpentine order: region, then size</span>
+    seed=20261022,
+)
+
+sum(s["hits"])                  <span class="text-sky-300">40</span>   <span class="text-(--color-termtext)/60"># always: exact, not expected</span>
+
+y = [[outcome[u] for u in s["unit"]]]
+pychromy.estimate_total(y, s["position"],
+                        s["expected_hits"], s["hits"])
+<span class="text-sky-300">{"total": [37623.4], "se": [5010.2], "random_draws": 38}</span></code></pre>
+    </div>
+    <p class="mt-3 font-mono text-xs text-(--muted)">The weights are 1 / expected_hits, already on the sample — ready for any design-based analysis.</p>
+  </div>
+</section>
+
+<!-- ======================= the walk ======================= -->
+<section class="rule-y bg-(--surface)/60">
+  <div class="mx-auto max-w-6xl px-5 py-20">
+    <p class="font-mono text-[13px] tracking-[0.15em] uppercase text-(--accent)">what runs underneath</p>
+    <h2 class="font-display mt-3 max-w-3xl text-4xl font-semibold tracking-tight">Expected hits accumulate; crossings release selections.</h2>
+    <p class="mt-5 max-w-3xl text-lg leading-relaxed text-(--muted)">
+      The expected hits accumulate down the ordered list; every time the running
+      sum crosses an integer, one selection is released, and a single uniform per
+      unit decides where it lands. Each unit's hits come out the floor or the
+      ceiling of its expectation — never further — which is what
+      <em>probability minimum replacement</em> means.
+    </p>
+    <figure class="mt-10">
+      <img src="../walk.svg" alt="Six units whose expected hits sum to three; the cumulative path crosses three integer levels, and each crossing releases one selection." class="w-full rounded-lg border border-(--rule) bg-(--surface)">
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= api ======================= -->
+<section id="api">
+  <div class="mx-auto max-w-6xl px-5 py-20">
+    <p class="font-mono text-[13px] tracking-[0.15em] uppercase text-(--accent)">the api</p>
+    <h2 class="font-display mt-3 max-w-3xl text-4xl font-semibold tracking-tight">Eight functions, one engine.</h2>
+
+    <div class="mt-10 overflow-x-auto rounded-lg border border-(--rule) bg-(--surface)">
+      <table class="w-full min-w-[720px] border-collapse text-left font-mono text-[13px] [&_td]:border [&_td]:border-(--rule) [&_td]:px-3 [&_td]:py-2 [&_tr:hover]:bg-(--cellhead)/50">
+        <thead class="bg-(--cellhead) text-(--muted)">
+          <tr><td class="font-medium">function</td><td class="font-medium">what it does</td></tr>
+        </thead>
+        <tbody>
+          <tr><td>sample(size, n, keys=, seed=)</td><td>a whole design: size → expected hits → order → head → selection → weights</td></tr>
+          <tr><td>serpentine_order(keys, method=)</td><td>hierarchical serpentine or nested order; string keys rank by byte order</td></tr>
+          <tr><td>mpps_size(columns, n_j=)</td><td>the maximal size measure over several auxiliary variables</td></tr>
+          <tr><td>eqcv_allocation(columns, n, …)</td><td>the factors that equalise anticipated CVs across variables</td></tr>
+          <tr><td>expected_hits(size, n, min_replacement=)</td><td>sizes into expected hits; certainties resolved, or hits above one allowed</td></tr>
+          <tr><td>select(lam, order=, head=, seed=…)</td><td>the full procedure with every draw under your control</td></tr>
+          <tr><td>pmr(lam, uniforms, priority=)</td><td>the sequential selection itself, deterministic given the uniforms</td></tr>
+          <tr><td>estimate_total(y, positions, expected, hits)</td><td>the multiplicity estimator with successive-difference variance</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 max-w-3xl text-[15px] leading-relaxed text-(--muted)">
+      Matrices are lists of columns: a pandas user writes
+      <code class="font-mono text-[0.9em]">[df[c].tolist() for c in cols]</code>,
+      a plain-list user writes the lists directly. Every refusal is loud — expected
+      hits that do not sum to an integer are refused, never rescaled, because a
+      selection whose inclusion probabilities nobody knows estimates nothing.
+    </p>
+  </div>
+</section>
+
+<!-- ======================= randomness ======================= -->
+<section id="randomness" class="rule-y bg-(--surface)/60">
+  <div class="mx-auto max-w-6xl px-5 py-20">
+    <div class="grid gap-10 lg:grid-cols-2">
+      <div>
+        <p class="font-mono text-[13px] tracking-[0.15em] uppercase text-(--accent)">randomness, stated plainly</p>
+        <h2 class="font-display mt-3 text-4xl font-semibold tracking-tight">A seed names the design.</h2>
+        <p class="mt-5 text-lg leading-relaxed text-(--muted)">
+          The engine takes its uniforms as arguments, so a selection is a pure
+          function of its inputs. <code class="font-mono text-[0.9em]">sample(seed=…)</code>
+          draws them from a fixed, documented generator (SplitMix64): a published
+          design can name its seed and be replayed, by anyone, years later.
+        </p>
+        <p class="mt-4 text-lg leading-relaxed text-(--muted)">
+          R and Python reproduce themselves, not each other — each language
+          consumes its own generator — but both run the same arithmetic, pinned
+          bit for bit to one reference implementation by the golden fixtures the
+          three packages share.
+        </p>
+      </div>
+      <div class="self-start overflow-hidden rounded-lg border border-(--rule) bg-(--color-term)">
+        <div class="border-b border-white/10 px-4 py-2 font-mono text-xs text-(--color-termtext)/50">bring your own generator, if you prefer</div>
+        <pre class="overflow-x-auto px-5 py-4 font-mono text-[13px] leading-relaxed text-(--color-termtext)"><code>import numpy as np
+rng = np.random.default_rng(2026)
+
+lam = pychromy.expected_hits(size, 40)
+s = pychromy.select(
+    lam,
+    u_head=rng.uniform(),
+    uniforms=rng.uniform(size=len(lam)).tolist(),
+)
+<span class="text-(--color-termtext)/60"># the engine never draws: you did</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= install ======================= -->
+<section id="install">
+  <div class="mx-auto max-w-6xl px-5 py-20">
+    <p class="font-mono text-[13px] tracking-[0.15em] uppercase text-(--accent)">install</p>
+    <h2 class="font-display mt-3 text-4xl font-semibold tracking-tight">One wheel, no dependencies.</h2>
+
+    <div class="mt-8 grid gap-4 lg:grid-cols-2">
+      <div class="overflow-hidden rounded-lg border border-(--rule) bg-(--color-term)">
+        <div class="border-b border-white/10 px-4 py-2 font-mono text-xs text-(--color-termtext)/50">PyPI</div>
+        <pre class="px-5 py-4 font-mono text-[13px] leading-relaxed text-(--color-termtext)"><code>pip install pychromy</code></pre>
+      </div>
+      <div class="overflow-hidden rounded-lg border border-(--rule) bg-(--color-term)">
+        <div class="border-b border-white/10 px-4 py-2 font-mono text-xs text-(--color-termtext)/50">from source (Rust ≥ 1.77)</div>
+        <pre class="px-5 py-4 font-mono text-[13px] leading-relaxed text-(--color-termtext)"><code>pip install maturin
+maturin develop --release</code></pre>
+      </div>
+    </div>
+    <p class="mt-4 max-w-3xl text-[15px] leading-relaxed text-(--muted)">
+      One abi3 wheel per platform serves every Python from 3.9 up. The name is
+      <code class="font-mono text-[0.9em]">pychromy</code> because
+      <code class="font-mono text-[0.9em]">chromy</code> was taken on PyPI by an
+      unrelated browser tool; everywhere else the ecosystem is
+      <code class="font-mono text-[0.9em]">chromy</code>.
+    </p>
+  </div>
+</section>
+
+<!-- ======================= footer ======================= -->
+<footer class="border-t border-(--rule)">
+  <div class="mx-auto max-w-6xl px-5 py-12">
+    <div class="grid gap-8 sm:grid-cols-3">
+      <div>
+        <p class="font-display text-lg font-semibold">pychromy</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-(--muted)">Chromy's sequential sampling, from Python. GPL-3.0-or-later. A project of the <a class="underline decoration-(--rule) underline-offset-4 hover:decoration-(--accent)" href="https://castlab.org">CAST Lab</a>, UFPE.</p>
+      </div>
+      <div>
+        <p class="font-mono text-xs uppercase tracking-[0.15em] text-(--muted)">siblings</p>
+        <p class="mt-2 text-[15px] leading-relaxed text-(--muted)">
+          <a class="underline decoration-(--rule) underline-offset-4 hover:decoration-(--accent)" href="https://castlaboratory.github.io/chromy/">chromy</a>, the R package, and
+          <a class="underline decoration-(--rule) underline-offset-4 hover:decoration-(--accent)" href="https://castlaboratory.github.io/chromy-core/">chromy-core</a>, the engine they share.
+        </p>
+      </div>
+      <div>
+        <p class="font-mono text-xs uppercase tracking-[0.15em] text-(--muted)">links</p>
+        <p class="mt-2 flex flex-col gap-1.5 font-mono text-sm text-(--muted)">
+          <a class="hover:text-(--accent) transition-colors" href="https://github.com/castlaboratory/pychromy">github</a>
+          <a class="hover:text-(--accent) transition-colors" href="https://pypi.org/project/pychromy/">pypi</a>
+          <a class="hover:text-(--accent) transition-colors" href="https://crates.io/crates/chromy-core">crates.io · the engine</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

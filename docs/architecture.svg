@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 440" width="880" height="440" role="img" aria-labelledby="t d">
+  <title id="t">chromy: one engine, three languages, one reference</title>
+  <desc id="d">A frame with sizes and the caller's uniforms go into the chromy-core engine, which is used directly from Rust, bound to R as the package chromy and to Python as pychromy. All three are pinned to the same reference implementation by golden tests; each language's generator makes its own selections reproducible.</desc>
+  <style>
+    .bg { fill: #faf6ee; }
+    .card { fill: #fffdf8; stroke: #e3dbc9; }
+    .core { fill: #fffdf8; stroke: #35508C; stroke-width: 2; }
+    .t { font-family: "IBM Plex Sans", "Helvetica Neue", sans-serif; fill: #1b2a41; }
+    .m { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    .display { font-family: Fraunces, Georgia, serif; font-weight: 600; }
+    .muted { fill: #46587a; }
+    .accent { fill: #35508C; }
+    .rule { stroke: #e3dbc9; }
+    .flow { stroke: #46587a; fill: none; stroke-width: 1.4; }
+    .flow-accent { stroke: #35508C; fill: none; stroke-width: 1.8; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #10141d; }
+      .card { fill: #161c28; stroke: #2a3347; }
+      .core { fill: #161c28; stroke: #8fa7dd; }
+      .t { fill: #e6ecf5; }
+      .muted { fill: #9fadc4; }
+      .accent { fill: #8fa7dd; }
+      .rule { stroke: #2a3347; }
+      .flow { stroke: #9fadc4; }
+      .flow-accent { stroke: #8fa7dd; }
+    }
+  </style>
+  <rect class="bg" width="880" height="440" />
+
+  <!-- inputs -->
+  <g class="t">
+    <rect class="card" x="24" y="96" width="156" height="52" rx="10" />
+    <text class="m" x="102" y="120" font-size="13" text-anchor="middle">frame + sizes</text>
+    <text class="m muted" x="102" y="137" font-size="11" text-anchor="middle">one row per unit</text>
+
+    <rect class="card" x="24" y="176" width="156" height="52" rx="10" />
+    <text class="m" x="102" y="200" font-size="13" text-anchor="middle">uniforms</text>
+    <text class="m muted" x="102" y="217" font-size="11" text-anchor="middle">the caller's generator</text>
+  </g>
+
+  <path class="flow" d="M180 122 C 216 122, 220 156, 256 156" />
+  <path class="flow" d="M180 202 C 216 202, 220 182, 256 182" />
+
+  <!-- the engine -->
+  <g class="t">
+    <rect class="core" x="256" y="86" width="204" height="172" rx="14" />
+    <text class="display accent" x="358" y="118" font-size="21" text-anchor="middle">chromy-core</text>
+    <line class="rule" x1="278" y1="132" x2="438" y2="132" />
+    <text class="m muted" x="358" y="153" font-size="11.5" text-anchor="middle">serpentine · mpps · eqcv</text>
+    <text class="m muted" x="358" y="172" font-size="11.5" text-anchor="middle">expected hits · pmr</text>
+    <text class="m muted" x="358" y="191" font-size="11.5" text-anchor="middle">select · estimate</text>
+    <text class="m muted" x="358" y="219" font-size="10.5" text-anchor="middle">no dependencies, no RNG:</text>
+    <text class="m muted" x="358" y="235" font-size="10.5" text-anchor="middle">a pure function of its arguments</text>
+  </g>
+
+  <!-- three languages -->
+  <path class="flow-accent" d="M460 128 C 506 128, 510 62, 558 62" />
+  <path class="flow-accent" d="M460 172 C 506 172, 510 150, 558 150" />
+  <path class="flow-accent" d="M460 216 C 506 216, 510 238, 558 238" />
+
+  <g class="t">
+    <rect class="card" x="558" y="34" width="298" height="56" rx="10" />
+    <text x="578" y="58" font-size="14" font-weight="600">Rust <tspan class="m muted" font-size="11" font-weight="400">· crates.io</tspan></text>
+    <text class="muted" x="578" y="77" font-size="12">a production system drawing its own samples</text>
+
+    <rect class="card" x="558" y="122" width="298" height="56" rx="10" />
+    <text x="578" y="146" font-size="14" font-weight="600">R: chromy <tspan class="m muted" font-size="11" font-weight="400">· CRAN · extendr</tspan></text>
+    <text class="muted" x="578" y="165" font-size="12">set.seed() reproduces the prototype draw for draw</text>
+
+    <rect class="card" x="558" y="210" width="298" height="56" rx="10" />
+    <text x="578" y="234" font-size="14" font-weight="600">Python: pychromy <tspan class="m muted" font-size="11" font-weight="400">· PyPI · PyO3</tspan></text>
+    <text class="muted" x="578" y="253" font-size="12">a seed names the design; lists in, lists out</text>
+  </g>
+
+  <!-- what pins them together -->
+  <line class="rule" x1="24" y1="330" x2="856" y2="330" />
+  <g class="t">
+    <text class="m accent" x="24" y="356" font-size="11" letter-spacing="1.6">ONE REFERENCE, THREE BINDINGS</text>
+    <text class="muted" x="24" y="382" font-size="13">golden fixtures generated from the reference implementation pin every language: integer outputs exact,</text>
+    <text class="muted" x="24" y="401" font-size="13">floating point at machine precision — and the R package replays the reference seed for seed.</text>
+    <text class="m muted" x="24" y="424" font-size="11">each language consumes its own generator: R and Python reproduce themselves, not each other</text>
+  </g>
+</svg>

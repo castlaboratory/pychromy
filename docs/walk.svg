@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" role="img" aria-labelledby="t d">
+  <title id="t">The walk: expected hits accumulate, crossings release selections</title>
+  <desc id="d">Six units in list order, with expected hits 0.6, 0.7, 0.4, 0.5, 0.45 and 0.35, summing to three. The cumulative path rises by each unit's expected hits; every time it crosses an integer level one selection is released, and a single conditional draw per unit decides where it lands. Three levels, three selections, always exactly.</desc>
+  <style>
+    .bg { fill: #faf6ee; }
+    .t { font-family: "IBM Plex Sans", "Helvetica Neue", sans-serif; fill: #1b2a41; }
+    .m { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+    .muted { fill: #46587a; }
+    .accent { fill: #35508C; }
+    .level { stroke: #46587a; stroke-width: 1; stroke-dasharray: 5 5; opacity: 0.55; }
+    .sep { stroke: #e3dbc9; stroke-width: 1; }
+    .path { stroke: #35508C; fill: none; stroke-width: 2.6; stroke-linejoin: round; }
+    .hit { fill: #D9962E; stroke: #faf6ee; stroke-width: 2; }
+    .axis { stroke: #46587a; stroke-width: 1.2; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #10141d; }
+      .t { fill: #e6ecf5; }
+      .muted { fill: #9fadc4; }
+      .accent { fill: #8fa7dd; }
+      .level { stroke: #9fadc4; }
+      .sep { stroke: #2a3347; }
+      .path { stroke: #8fa7dd; }
+      .hit { fill: #e8a33d; stroke: #10141d; }
+      .axis { stroke: #9fadc4; }
+    }
+  </style>
+  <rect class="bg" width="880" height="420" />
+
+  <!-- integer levels: each one the path crosses releases a selection -->
+  <g>
+    <line class="level" x1="120" y1="240" x2="800" y2="240" />
+    <line class="level" x1="120" y1="150" x2="800" y2="150" />
+    <line class="level" x1="120" y1="60"  x2="800" y2="60" />
+  </g>
+  <g class="t m muted" font-size="11" text-anchor="end">
+    <text x="112" y="334">0</text>
+    <text x="112" y="244">1</text>
+    <text x="112" y="154">2</text>
+    <text x="112" y="64">3</text>
+  </g>
+  <text class="t m muted" x="58" y="200" font-size="11" transform="rotate(-90 58 200)" text-anchor="middle">cumulative expected hits</text>
+
+  <!-- unit separators -->
+  <g>
+    <line class="sep" x1="226.7" y1="52" x2="226.7" y2="344" />
+    <line class="sep" x1="333.3" y1="52" x2="333.3" y2="344" />
+    <line class="sep" x1="440"   y1="52" x2="440"   y2="344" />
+    <line class="sep" x1="546.7" y1="52" x2="546.7" y2="344" />
+    <line class="sep" x1="653.3" y1="52" x2="653.3" y2="344" />
+  </g>
+
+  <!-- axes -->
+  <line class="axis" x1="120" y1="330" x2="800" y2="330" />
+  <line class="axis" x1="120" y1="330" x2="120" y2="52" />
+
+  <!-- the cumulative path -->
+  <path class="path" d="M120 330 L226.7 276 L333.3 213 L440 177 L546.7 132 L653.3 91.5 L760 60" />
+
+  <!-- crossings -->
+  <circle class="hit" cx="287.6" cy="240" r="7" />
+  <circle class="hit" cx="504"   cy="150" r="7" />
+  <circle class="hit" cx="760"   cy="60"  r="7" />
+
+  <!-- unit labels: position and expected hits -->
+  <g class="t m" font-size="12" text-anchor="middle">
+    <text class="muted" x="173" y="366">unit 1</text>
+    <text class="muted" x="280" y="366">unit 2</text>
+    <text class="muted" x="386" y="366">unit 3</text>
+    <text class="muted" x="493" y="366">unit 4</text>
+    <text class="muted" x="600" y="366">unit 5</text>
+    <text class="muted" x="707" y="366">unit 6</text>
+    <text class="accent" x="173" y="386">λ = .60</text>
+    <text class="accent" x="280" y="386">λ = .70</text>
+    <text class="accent" x="386" y="386">λ = .40</text>
+    <text class="accent" x="493" y="386">λ = .50</text>
+    <text class="accent" x="600" y="386">λ = .45</text>
+    <text class="accent" x="707" y="386">λ = .35</text>
+  </g>
+
+  <!-- annotations -->
+  <g class="t">
+    <text class="m accent" x="300" y="226" font-size="11">a crossing: one selection released</text>
+    <text class="m muted" x="520" y="116" font-size="11">one uniform per unit decides where it lands —</text>
+    <text class="m muted" x="520" y="132" font-size="11">on this unit or carried to the next</text>
+    <text class="m muted" x="420" y="36" font-size="11.5" text-anchor="middle">three levels, three selections: the sample size is exact, not on average</text>
+  </g>
+</svg>
