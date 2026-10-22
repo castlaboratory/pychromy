@@ -1,0 +1,38 @@
+# The Python binding, built by maturin. Its own workspace: this crate is a
+# cdylib for a Python interpreter and has nothing to say about how the
+# engine itself is built.
+[workspace]
+
+[package]
+name = "pychromy-python"
+version = "0.1.0"
+description = "Python bindings for chromy-core: Chromy's sequential sampling with probability minimum replacement"
+edition = "2021"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/castlaboratory/pychromy"
+authors = [
+    "André Leite <leite@castlab.org>",
+    "Raydonal Ospina <raydonal@castlab.org>",
+    "Cristiano Ferraz <cferraz@castlab.org>",
+    "David Eloi dos Santos Bitencourt <profdavidsb@gmail.com>",
+    "Clara Ribeiro de Santana <clara.rsantana@ufpe.br>",
+]
+rust-version = "1.77"
+publish = false
+
+[lib]
+name = "pychromy"
+crate-type = ["cdylib"]
+
+[dependencies]
+# Development builds take the engine from the sibling checkout; a release
+# pins the crates.io version.
+chromy-core = { version = "0.1.0", path = "../chromy-core" }
+# abi3-py39: one wheel per platform serves every Python from 3.9 up.
+pyo3 = { version = "0.26", features = ["extension-module", "abi3-py39"] }
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true

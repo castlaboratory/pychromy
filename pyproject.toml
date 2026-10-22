@@ -1,0 +1,39 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "pychromy"
+description = "Chromy's sequential sampling with probability minimum replacement: serpentine sorting, multivariate size measures, equal-CV allocation, and the multiplicity estimator"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+  { name = "André Leite", email = "leite@castlab.org" },
+  { name = "Raydonal Ospina", email = "raydonal@castlab.org" },
+  { name = "Cristiano Ferraz", email = "cferraz@castlab.org" },
+  { name = "David Eloi dos Santos Bitencourt", email = "profdavidsb@gmail.com" },
+  { name = "Clara Ribeiro de Santana", email = "clara.rsantana@ufpe.br" },
+]
+requires-python = ">=3.9"
+keywords = ["sampling", "survey", "pps", "chromy", "statistics", "pmr"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://castlaboratory.github.io/pychromy/"
+Repository = "https://github.com/castlaboratory/pychromy"
+Issues = "https://github.com/castlaboratory/pychromy/issues"
+Changelog = "https://github.com/castlaboratory/pychromy/releases"
+
+[tool.maturin]
+manifest-path = "Cargo.toml"
+features = ["pyo3/extension-module"]
+strip = true
