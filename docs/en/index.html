@@ -26,7 +26,7 @@
 <header class="border-b border-(--rule) bg-(--bg)/80 backdrop-blur-sm sticky top-0 z-40">
   <nav class="mx-auto flex max-w-6xl items-baseline gap-6 px-5 py-3.5">
     <a href="#" class="font-display text-xl font-bold tracking-tight">pychromy</a>
-    <span class="font-mono text-xs text-(--muted) hidden sm:inline">v0.1</span>
+    <span class="font-mono text-xs text-(--muted) hidden sm:inline">v0.2</span>
     <span class="flex-1"></span>
     <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors" href="#design">a design</a>
     <a class="font-mono text-sm text-(--muted) hover:text-(--accent) transition-colors" href="#api">api</a>
@@ -106,7 +106,7 @@ pychromy.estimate_total(y, s["position"],
 <section id="api">
   <div class="mx-auto max-w-6xl px-5 py-20">
     <p class="font-mono text-[13px] tracking-[0.15em] uppercase text-(--accent)">the api</p>
-    <h2 class="font-display mt-3 max-w-3xl text-4xl font-semibold tracking-tight">Eight functions, one engine.</h2>
+    <h2 class="font-display mt-3 max-w-3xl text-4xl font-semibold tracking-tight">Nine functions, one engine.</h2>
 
     <div class="mt-10 overflow-x-auto rounded-lg border border-(--rule) bg-(--surface)">
       <table class="w-full min-w-[720px] border-collapse text-left font-mono text-[13px] [&_td]:border [&_td]:border-(--rule) [&_td]:px-3 [&_td]:py-2 [&_tr:hover]:bg-(--cellhead)/50">
@@ -122,6 +122,7 @@ pychromy.estimate_total(y, s["position"],
           <tr><td>select(lam, order=, head=, seed=…)</td><td>the full procedure with every draw under your control</td></tr>
           <tr><td>pmr(lam, uniforms, priority=)</td><td>the sequential selection itself, deterministic given the uniforms</td></tr>
           <tr><td>estimate_total(y, positions, expected, hits)</td><td>the multiplicity estimator with successive-difference variance</td></tr>
+          <tr><td>joint_inclusion(pi, order=, units=)</td><td>exact second-order probabilities: the Sen–Yates–Grundy variance, exact</td></tr>
         </tbody>
       </table>
     </div>
