@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use pychromy, please cite it as below."
+title: "pychromy: Chromy's sequential sampling with probability minimum replacement, from Python"
+type: software
+authors:
+  - family-names: Leite
+    given-names: André
+    orcid: "https://orcid.org/0000-0002-4718-9766"
+  - family-names: Ospina
+    given-names: Raydonal
+    orcid: "https://orcid.org/0000-0002-9884-9090"
+  - family-names: Ferraz
+    given-names: Cristiano
+    orcid: "https://orcid.org/0000-0002-6838-6734"
+  - family-names: dos Santos Bitencourt
+    given-names: David Eloi
+  - family-names: Ribeiro de Santana
+    given-names: Clara
+version: 0.1.0
+date-released: 2026-10-22
+license: GPL-3.0-or-later
+repository-code: "https://github.com/castlaboratory/pychromy"
+url: "https://castlaboratory.github.io/pychromy/"
+keywords: [sampling, survey, pps, chromy, probability-minimum-replacement, python]
+references:
+  - type: conference-paper
+    authors: [{family-names: Chromy, given-names: James R.}]
+    title: "Sequential sample selection methods"
+    collection-title: "Proceedings of the American Statistical Association, Survey Research Methods Section"
+    year: 1979
+    pages: "401-406"
