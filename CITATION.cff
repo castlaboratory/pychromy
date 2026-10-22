@@ -17,7 +17,7 @@ authors:
   - family-names: Ribeiro de Santana
     given-names: Clara
 doi: 10.5281/zenodo.23576473
-version: 0.1.1
+version: 0.2.0
 date-released: 2026-10-22
 license: GPL-3.0-or-later
 repository-code: "https://github.com/castlaboratory/pychromy"

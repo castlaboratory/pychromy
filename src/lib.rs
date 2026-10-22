@@ -377,6 +377,30 @@ fn estimate_total(
     Ok(out.into())
 }
 
+/// Exact joint inclusion probabilities of chosen units.
+///
+/// For the without-replacement design (every expected hit at most one):
+/// the closed forms of Chauvet and Le Gleut (2021), under the random head
+/// this module draws (`randomized=True`, the default) or down the fixed
+/// list. `units` are 0-based frame indices, typically the sampled units;
+/// returns the m x m matrix as a list of rows, first-order probabilities
+/// on the diagonal. With it the Sen-Yates-Grundy variance of the
+/// Horvitz-Thompson total is exact.
+#[pyfunction]
+#[pyo3(signature = (pi, order=None, units=None, randomized=true))]
+fn joint_inclusion(
+    pi: Vec<f64>,
+    order: Option<Vec<usize>>,
+    units: Option<Vec<usize>>,
+    randomized: bool,
+) -> PyResult<Vec<Vec<f64>>> {
+    let order = order.unwrap_or_else(|| (0..pi.len()).collect());
+    let units = units.unwrap_or_else(|| (0..pi.len()).collect());
+    let flat = err(core::joint_inclusion(&pi, &order, &units, randomized))?;
+    let m = units.len();
+    Ok((0..m).map(|r| flat[r * m..(r + 1) * m].to_vec()).collect())
+}
+
 #[pymodule]
 fn pychromy(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(pmr, m)?)?;
@@ -387,6 +411,7 @@ fn pychromy(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(select, m)?)?;
     m.add_function(wrap_pyfunction!(sample, m)?)?;
     m.add_function(wrap_pyfunction!(estimate_total, m)?)?;
+    m.add_function(wrap_pyfunction!(joint_inclusion, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
 }

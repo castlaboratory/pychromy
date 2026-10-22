@@ -114,3 +114,14 @@ def test_refusals_are_loud():
         pychromy.sample(size=[1.0, 2.0], n=1)
     with pytest.raises(ValueError, match="lengths"):
         pychromy.mpps_size([[1.0, 2.0], [1.0]])
+
+
+def test_joint_inclusion_identities():
+    pik = pychromy.expected_hits([5.0, 2.0, 4.0, 1.0, 3.0, 2.5, 1.5, 4.5], 4)
+    m = pychromy.joint_inclusion(pik)
+    for k, row in enumerate(m):
+        assert abs(sum(row) - row[k] - 3 * pik[k]) < 1e-8
+        for l, v in enumerate(row):
+            assert abs(v - m[l][k]) < 1e-12
+    with pytest.raises(ValueError):
+        pychromy.joint_inclusion([1.4, 0.6])

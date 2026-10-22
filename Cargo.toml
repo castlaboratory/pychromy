@@ -5,7 +5,7 @@
 
 [package]
 name = "pychromy-python"
-version = "0.1.1"
+version = "0.2.0"
 description = "Python bindings for chromy-core: Chromy's sequential sampling with probability minimum replacement"
 edition = "2021"
 license = "GPL-3.0-or-later"
@@ -25,7 +25,7 @@ name = "pychromy"
 crate-type = ["cdylib"]
 
 [dependencies]
-chromy-core = "0.1.1"
+chromy-core = "0.2.0"
 # abi3-py39: one wheel per platform serves every Python from 3.9 up.
 pyo3 = { version = "0.26", features = ["extension-module", "abi3-py39"] }
 
